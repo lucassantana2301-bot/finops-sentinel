@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ApiError, loadDashboard, loadStatus, type DashboardData } from './api';
+import { ApiError, IS_DEMO, loadDashboard, loadStatus, type DashboardData } from './api';
 import { AnomalyTable } from './components/AnomalyTable';
 import { BreakdownTable } from './components/BreakdownTable';
 import { Budgets } from './components/Budgets';
@@ -107,6 +107,14 @@ export function App() {
           </label>
         </div>
       </header>
+
+      {IS_DEMO && (
+        <aside className="demo-banner" role="note">
+          <strong>Demonstração ao vivo</strong> com 90 dias de billing sintético de AWS e Azure, processado no seu
+          navegador pelo mesmo motor da API. Para conectar contas reais,{' '}
+          <a href="https://github.com/lucassantana2301-bot/finops-sentinel#como-rodar">rode localmente</a>.
+        </aside>
+      )}
 
       <main>
         {state.kind === 'loading' && <p className="status">Carregando…</p>}
