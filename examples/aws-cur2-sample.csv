@@ -1,0 +1,8 @@
+line_item_usage_start_date,bill_payer_account_id,line_item_usage_account_id,line_item_product_code,product_region_code,line_item_resource_id,line_item_usage_type,product_instance_type,line_item_line_item_type,line_item_unblended_cost,line_item_currency_code,savings_plan_savings_plan_effective_cost,savings_plan_total_commitment_to_date,savings_plan_used_commitment,resource_tags
+2026-11-01T00:00:00Z,900000000001,100000000001,AmazonEC2,us-east-1,i-0a1b2c3d4e5f60001,USE1-BoxUsage:m5.xlarge,m5.xlarge,SavingsPlanCoveredUsage,4.608,USD,3.1,,,"{""user_team"":""pagamentos"",""user_env"":""prod""}"
+2026-11-01T00:00:00Z,900000000001,100000000001,AmazonEC2,us-east-1,i-0a1b2c3d4e5f60001,USE1-BoxUsage:m5.xlarge,m5.xlarge,SavingsPlanNegation,-4.608,USD,,,,
+2026-11-01T00:00:00Z,900000000001,100000000001,ComputeSavingsPlans,,arn:aws:savingsplans::900000000001:savingsplan/0001,ComputeSP:1yrNoUpfront,,SavingsPlanRecurringFee,3.36,USD,,3.36,3.1,
+2026-11-01T00:00:00Z,900000000001,100000000001,AmazonEC2,us-east-1,vol-0aa11bb22cc330001,USE1-EBS:VolumeUsage.gp2,,Usage,3.33,USD,,,,"{""user_team"":""pagamentos"",""user_env"":""prod""}"
+2026-11-01T00:00:00Z,900000000001,100000000001,AmazonEC2,us-east-1,eipalloc-0123456789abc0001,USE1-PublicIPv4:IdleAddress,,Usage,0.12,USD,,,,
+2026-11-01T00:00:00Z,900000000001,100000000002,AmazonEC2,sa-east-1,i-0dev0dev0dev00001,SAE1-BoxUsage:t2.large,t2.large,Usage,3.57,USD,,,,"{""user_team"":""pagamentos"",""user_env"":""dev""}"
+2026-11-01T00:00:00Z,900000000001,100000000001,AmazonEC2,us-east-1,,,,Tax,0.92,USD,,,,
