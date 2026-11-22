@@ -13,4 +13,9 @@ export default tseslint.config(
       eqeqeq: ['error', 'smart'],
     },
   },
+  {
+    // Scripts utilitários de CI rodam direto no Node.
+    files: ['scripts/**/*.mjs'],
+    languageOptions: { globals: { process: 'readonly', console: 'readonly' } },
+  },
 );

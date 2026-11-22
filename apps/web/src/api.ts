@@ -20,6 +20,12 @@ export class ApiError extends Error {
 
 const BASE = '/api/v1';
 
+/**
+ * Build estático da demo (GitHub Pages): o domínio roda no navegador em vez de chamar a API.
+ * A checagem é resolvida em build, então o import dinâmico some do bundle de produção.
+ */
+export const IS_DEMO = import.meta.env.VITE_DEMO_MODE === 'true';
+
 async function get<T>(
   path: string,
   params: Record<string, string | number | undefined>,
@@ -52,6 +58,7 @@ export interface DashboardData {
 }
 
 export async function loadDashboard(query: DashboardQuery, signal: AbortSignal): Promise<DashboardData> {
+  if (IS_DEMO) return (await import('./demo-backend')).loadDemoDashboard(query, signal);
   const period = { from: query.from, to: query.to };
   const [overview, summary, timeseries, anomalies, forecast, recommendations] = await Promise.all([
     get<Overview>('/overview', {}, signal),
@@ -67,5 +74,6 @@ export async function loadDashboard(query: DashboardQuery, signal: AbortSignal):
 export async function loadStatus(
   signal: AbortSignal,
 ): Promise<{ from: string | null; to: string | null; records: number }> {
+  if (IS_DEMO) return (await import('./demo-backend')).loadDemoStatus(signal);
   return get('/status', {}, signal);
 }

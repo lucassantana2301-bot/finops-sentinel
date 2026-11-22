@@ -1,0 +1,124 @@
+name: Release
+
+# Disparado por tag SemVer (vX.Y.Z). Valida o código, publica as imagens no GHCR com
+# SBOM e proveniência e cria a release com as notas da versão extraídas do CHANGELOG.
+
+on:
+  push:
+    tags: ['v[0-9]+.[0-9]+.[0-9]+']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  VERSION: ${{ github.ref_name }}
+
+jobs:
+  verify:
+    name: Validação
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+          cache: npm
+
+      - name: Tag bate com a versão do package.json
+        run: |
+          expected="v$(node -p "require('./package.json').version")"
+          if [ "$VERSION" != "$expected" ]; then
+            echo "::error::tag $VERSION diferente da versão do package.json ($expected)"
+            exit 1
+          fi
+
+      - name: CHANGELOG tem a seção da versão
+        run: scripts/changelog-section.sh "${VERSION#v}" > /dev/null
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build:libs
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+
+  images:
+    name: Imagem ${{ matrix.app }}
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+    strategy:
+      matrix:
+        app: [api, web]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: docker/setup-buildx-action@v4
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ghcr.io/${{ github.repository }}-${{ matrix.app }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=raw,value=latest
+          labels: |
+            org.opencontainers.image.title=finops-sentinel-${{ matrix.app }}
+      - id: push
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: apps/${{ matrix.app }}/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          sbom: true
+          provenance: mode=max
+          cache-from: type=gha,scope=${{ matrix.app }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.app }}
+      - uses: actions/attest-build-provenance@v4
+        with:
+          subject-name: ghcr.io/${{ github.repository }}-${{ matrix.app }}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
+
+  release:
+    name: GitHub Release
+    needs: images
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - name: Cria a release com as notas do CHANGELOG
+        run: |
+          {
+            scripts/changelog-section.sh "${VERSION#v}"
+            echo
+            echo "### Imagens"
+            echo
+            echo '```bash'
+            echo "docker pull ghcr.io/${GITHUB_REPOSITORY}-api:${VERSION#v}"
+            echo "docker pull ghcr.io/${GITHUB_REPOSITORY}-web:${VERSION#v}"
+            echo '```'
+            echo
+            echo "Demo ao vivo: https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}/"
+          } > notes.md
+          gh release create "$VERSION" --title "$VERSION" --notes-file notes.md --verify-tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

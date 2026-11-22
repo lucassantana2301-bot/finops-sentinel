@@ -1,6 +1,6 @@
 {
   "name": "@fns/connectors",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "main": "./dist/index.js",
@@ -19,7 +19,7 @@
   "dependencies": {
     "@aws-sdk/client-cost-explorer": "^3.1175.0",
     "@azure/identity": "^4.14.1",
-    "@fns/core": "0.1.0"
+    "@fns/core": "1.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.20.5",
