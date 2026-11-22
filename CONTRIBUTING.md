@@ -40,7 +40,6 @@ npm run dev:web   # painel em http://localhost:5173
 
 ## Release
 
-1. Atualize o `CHANGELOG.md` movendo os itens de `[Não lançado]` para a nova versão.
-2. Atualize a versão do projeto (`version` no `package.json` da raiz e dos workspaces).
-3. Crie e envie a tag: `git tag -a vX.Y.Z -m "vX.Y.Z" && git push origin vX.Y.Z`.
-4. O workflow `release.yml` valida, publica os artefatos e cria a release com as notas do CHANGELOG.
+1. Em um PR, mova os itens de `[Não lançado]` do `CHANGELOG.md` para a nova versão e atualize a versão do projeto (`version` no `package.json` da raiz e dos workspaces).
+2. Ao integrar o PR na `main`, o workflow `release.yml` percebe a versão nova, valida o código, publica os artefatos e cria a tag `vX.Y.Z` e a release com as notas do CHANGELOG.
+3. Também é possível disparar pela aba Actions (`workflow_dispatch`) ou enviando a tag à mão.
