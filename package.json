@@ -1,0 +1,37 @@
+{
+  "name": "finops-sentinel",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Painel FinOps multicloud (AWS + Azure) com modelo FOCUS, detecção de anomalias de custo, previsão de fechamento do mês e recomendações de economia.",
+  "license": "MIT",
+  "workspaces": [
+    "packages/core",
+    "packages/connectors",
+    "apps/api",
+    "apps/cli",
+    "apps/web"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "npm run build -w @fns/core && npm run build -w @fns/connectors && npm run build -w @fns/api -w @fns/cli -w @fns/web",
+    "build:libs": "npm run build -w @fns/core && npm run build -w @fns/connectors",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "dev:api": "npm run dev -w @fns/api",
+    "dev:web": "npm run dev -w @fns/web",
+    "report": "node apps/cli/dist/main.js report"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.15.0",
+    "prettier": "^3.10.1",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.73.0"
+  }
+}

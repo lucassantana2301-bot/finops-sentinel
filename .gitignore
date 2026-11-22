@@ -1,0 +1,17 @@
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+
+# Exports de billing reais contêm IDs de conta e recursos: nunca vão para o git
+data/
+*.cur.csv
+*.parquet
+
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
