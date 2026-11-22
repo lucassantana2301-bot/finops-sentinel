@@ -1,6 +1,6 @@
 {
   "name": "@fns/api",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "main": "./dist/server.js",
@@ -15,8 +15,8 @@
     "@fastify/cors": "^11.4.3",
     "@fastify/helmet": "^13.2.0",
     "@fastify/rate-limit": "^11.3.0",
-    "@fns/connectors": "0.1.0",
-    "@fns/core": "0.1.0",
+    "@fns/connectors": "1.0.0",
+    "@fns/core": "1.0.0",
     "fastify": "^5.12.8",
     "zod": "^4.6.7"
   },

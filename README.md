@@ -6,6 +6,8 @@
 
 [![CI](https://github.com/lucassantana2301-bot/finops-sentinel/actions/workflows/ci.yml/badge.svg)](https://github.com/lucassantana2301-bot/finops-sentinel/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/lucassantana2301-bot/finops-sentinel/actions/workflows/codeql.yml/badge.svg)](https://github.com/lucassantana2301-bot/finops-sentinel/actions/workflows/codeql.yml)
+[![Coverage](https://img.shields.io/endpoint?url=https://lucassantana2301-bot.github.io/finops-sentinel/badges/coverage.json)](https://lucassantana2301-bot.github.io/finops-sentinel/coverage/)
+[![Release](https://img.shields.io/github/v/release/lucassantana2301-bot/finops-sentinel?sort=semver)](https://github.com/lucassantana2301-bot/finops-sentinel/releases)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?logo=typescript&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-22_%7C_26-339933?logo=nodedotjs&logoColor=white)
 ![Fastify](https://img.shields.io/badge/Fastify-5-000000?logo=fastify&logoColor=white)
@@ -14,6 +16,8 @@
 ![Azure](https://img.shields.io/badge/Azure-Cost_Management-0078D4?logo=microsoftazure&logoColor=white)
 ![FOCUS](https://img.shields.io/badge/FinOps-FOCUS_1.0-10b981)
 ![License](https://img.shields.io/badge/license-MIT-green)
+
+**[▶ Demo ao vivo](https://lucassantana2301-bot.github.io/finops-sentinel/)** · [Releases](https://github.com/lucassantana2301-bot/finops-sentinel/releases) · [Arquitetura](#arquitetura) · [Decisões](#decisões-técnicas) · [Como rodar](#como-rodar)
 
 ![Painel com custo efetivo, previsão de fechamento, anomalias, gráfico diário por serviço e orçamentos por time](docs/dashboard.png)
 
@@ -95,6 +99,18 @@ finops-sentinel/
 ## Como rodar
 
 Pré-requisito: Node.js 22+ (ou Docker).
+
+> **Só quer ver funcionando?** A [demo ao vivo](https://lucassantana2301-bot.github.io/finops-sentinel/) roda o mesmo motor da API dentro do navegador, com 90 dias de billing sintético. Nada é enviado a servidor algum.
+
+### Com as imagens publicadas
+
+Cada release publica as imagens no GitHub Container Registry, com SBOM e atestado de proveniência:
+
+```bash
+docker run -d -p 3333:3333 -e SOURCES=demo -e API_KEY=$(openssl rand -hex 32) ghcr.io/lucassantana2301-bot/finops-sentinel-api:1
+docker run -d -p 8080:8080 ghcr.io/lucassantana2301-bot/finops-sentinel-web:1
+gh attestation verify oci://ghcr.io/lucassantana2301-bot/finops-sentinel-api:1 --owner lucassantana2301-bot
+```
 
 ### Com Docker Compose
 
@@ -212,9 +228,12 @@ Todas as estimativas são conservadoras e documentadas na própria regra. A soma
 
 ```bash
 npm run lint && npm run typecheck && npm test
+npm run test:coverage   # cobertura consolidada de todos os workspaces
 ```
 
-São 76 testes (Vitest) cobrindo amortização do CUR, datas em formato americano do Azure, sazonalidade, gasto novo, idempotência, deduplicação de alertas, validação da API, conectores com fakes e códigos de saída da CLI. O CI roda lint, Prettier, tipos, testes, build, CLI e build das imagens Docker com smoke test da API.
+O [relatório de cobertura](https://lucassantana2301-bot.github.io/finops-sentinel/coverage/) é publicado a cada push na `main`.
+
+São 79 testes (Vitest) cobrindo amortização do CUR, datas em formato americano do Azure, sazonalidade, gasto novo, idempotência, deduplicação de alertas, validação da API, conectores com fakes e códigos de saída da CLI. O CI roda lint, Prettier, tipos, testes, build, CLI e build das imagens Docker com smoke test da API.
 
 ## Limitações e próximos passos
 
@@ -222,6 +241,10 @@ São 76 testes (Vitest) cobrindo amortização do CUR, datas em formato american
 - O Cost Explorer e a Query API do Azure não trazem recurso e tag na mesma consulta; as regras por recurso dependem do CUR/FOCUS.
 - Regras de rightsizing por utilização (CPU/memória) exigem métricas do CloudWatch/Azure Monitor e ainda não estão implementadas.
 - O painel não tem autenticação própria: em produção, coloque-o atrás do SSO da empresa (oauth2-proxy, Cloudflare Access, Entra ID Application Proxy).
+
+## Contribuindo
+
+Veja o [guia de contribuição](CONTRIBUTING.md) (fluxo de branch, Conventional Commits e processo de release), o [CHANGELOG](CHANGELOG.md) e a [política de segurança](SECURITY.md).
 
 ## Licença
 
