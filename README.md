@@ -17,7 +17,7 @@
 ![FOCUS](https://img.shields.io/badge/FinOps-FOCUS_1.0-10b981)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-**[▶ Demo ao vivo](https://lucassantana2301-bot.github.io/finops-sentinel/)** · [Releases](https://github.com/lucassantana2301-bot/finops-sentinel/releases) · [Arquitetura](#arquitetura) · [Decisões](#decisões-técnicas) · [Como rodar](#como-rodar)
+**[▶ Demo ao vivo](https://lucassantana2301-bot.github.io/finops-sentinel/)** · [Abrir no Codespaces](https://codespaces.new/lucassantana2301-bot/finops-sentinel?quickstart=1) · [Releases](https://github.com/lucassantana2301-bot/finops-sentinel/releases) · [Arquitetura](#arquitetura) · [Decisões](#decisões-técnicas) · [Como rodar](#como-rodar)
 
 ![Painel com custo efetivo, previsão de fechamento, anomalias, gráfico diário por serviço e orçamentos por time](docs/dashboard.png)
 
@@ -101,6 +101,12 @@ finops-sentinel/
 Pré-requisito: Node.js 22+ (ou Docker).
 
 > **Só quer ver funcionando?** A [demo ao vivo](https://lucassantana2301-bot.github.io/finops-sentinel/) roda o mesmo motor da API dentro do navegador, com 90 dias de billing sintético. Nada é enviado a servidor algum.
+
+### No navegador, sem instalar nada
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/lucassantana2301-bot/finops-sentinel?quickstart=1)
+
+O devcontainer instala as dependências, sobe a API com dados de demonstração e abre o painel.
 
 ### Com as imagens publicadas
 

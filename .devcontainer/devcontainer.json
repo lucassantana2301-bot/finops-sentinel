@@ -1,0 +1,19 @@
+{
+  "name": "FinOps Sentinel",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:22",
+  "postCreateCommand": "npm ci && npm run build:libs",
+  "postAttachCommand": {
+    "api": "SOURCES=demo npm run dev:api",
+    "web": "npm run dev:web -- --host"
+  },
+  "forwardPorts": [5173, 3333],
+  "portsAttributes": {
+    "5173": { "label": "Painel", "onAutoForward": "openPreview" },
+    "3333": { "label": "API", "onAutoForward": "silent" }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode", "vitest.explorer"]
+    }
+  }
+}
