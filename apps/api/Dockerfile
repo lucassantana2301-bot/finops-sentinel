@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.7
 # Build a partir da raiz do monorepo: docker build -f apps/api/Dockerfile .
 
-ARG NODE_IMAGE=node:22-alpine
+ARG NODE_IMAGE=node:26-alpine
 
 # Manifests de todos os workspaces: o npm ci precisa deles para resolver o lockfile.
 FROM ${NODE_IMAGE} AS manifests

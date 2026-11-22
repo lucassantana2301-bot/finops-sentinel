@@ -7,7 +7,7 @@
 [![CI](https://github.com/lucassantana2301-bot/finops-sentinel/actions/workflows/ci.yml/badge.svg)](https://github.com/lucassantana2301-bot/finops-sentinel/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/lucassantana2301-bot/finops-sentinel/actions/workflows/codeql.yml/badge.svg)](https://github.com/lucassantana2301-bot/finops-sentinel/actions/workflows/codeql.yml)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?logo=typescript&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-22-339933?logo=nodedotjs&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-22_%7C_26-339933?logo=nodedotjs&logoColor=white)
 ![Fastify](https://img.shields.io/badge/Fastify-5-000000?logo=fastify&logoColor=white)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
 ![AWS](https://img.shields.io/badge/AWS-Cost_Explorer_·_CUR-FF9900?logo=amazonwebservices&logoColor=white)

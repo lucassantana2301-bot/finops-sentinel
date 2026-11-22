@@ -14,14 +14,19 @@ concurrency:
 
 jobs:
   quality:
-    name: Lint, tipos, testes e build
+    name: Lint, tipos, testes e build (Node ${{ matrix.node }})
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        # 22: mínimo suportado (engines). 26: LTS ativa, usada nas imagens Docker.
+        node: [22, 26]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version: ${{ matrix.node }}
           cache: npm
       - run: npm ci
       - run: npm run lint
@@ -32,6 +37,7 @@ jobs:
       - run: npm run build
 
       - name: Relatório FinOps de exemplo (CLI)
+        if: matrix.node == 26
         run: |
           node apps/cli/dist/main.js demo --out demo.csv
           node apps/cli/dist/main.js report demo.csv --budget 4600 --fail-on critical > report.md
@@ -43,7 +49,7 @@ jobs:
     needs: quality
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: docker build -f apps/api/Dockerfile -t finops-sentinel-api .
       - run: docker build -f apps/web/Dockerfile -t finops-sentinel-web .
       - name: Smoke test da imagem da API

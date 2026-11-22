@@ -9,6 +9,13 @@ updates:
         dependency-type: development
       aws-sdk:
         patterns: ['@aws-sdk/*']
+    ignore:
+      # TypeScript 7 (compilador em Go) ainda não é suportado pelo typescript-eslint.
+      - dependency-name: typescript
+        update-types: ['version-update:semver-major']
+      # @types/node acompanha a menor versão de Node suportada (engines >= 22).
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']
   - package-ecosystem: github-actions
     directory: /
     schedule:
